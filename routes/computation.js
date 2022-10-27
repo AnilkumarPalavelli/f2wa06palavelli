@@ -1,19 +1,31 @@
 var express = require('express');
 var router = express.Router();
-var x =Math.floor(Math.random() * 20);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  if(req.query.x!= null && req.query.x!=undefined) {
-    x= req.query.x
+  
+  
+  if (Object.keys(req.query).length === 0) {
+    var b=Math.random();
+    res.render('computation', { x: `Math.atan() applied to ${b} is ${Math.atan(b)}`,
+    y: `Math.exp() applied to ${b} is ${Math.exp(b)}` ,
+    z: `Math.expm1() applied to ${b} is ${Math.expm1(b)}` });
+  }
+  else{
+
+    for (let c in req.query) {
+
+      console.log(c)
+
+      res.render('computation', { x: `Math.atan() applied to ${req.query[c]} is ${Math.atan(req.query[c])}`,
+      y: `Math.exp() applied to ${req.query[c]} is ${Math.exp(req.query[c])}` ,
+      z: `Math.expm1() applied to ${req.query[c]} is ${Math.expm1(req.query[c])}` })
+
+    }
   }
 
-    var a1 = Math.atan(x);
-    var a2 = Math.exp(x);
-    var a3 = Math.expm1(x);
-    res.send("Math.atan() applied to "+x+" is "+a1+"<br></br>"+
-                "Math.exp() applied to "+x+" is "+a2+"<br></br>"+
-                "Math.expm1() applied to "+x+" is "+a3);
+
 });
+
 
 module.exports = router;
